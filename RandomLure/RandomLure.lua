@@ -75,8 +75,6 @@ end
 
 local rlOptionsPanel = CreateFrame("Frame")
 rlOptionsPanel.name = "Random Lure [/rl or /lure]"
-rlOptionsPanel.okay = function() optionsOkay(); end
-rlOptionsPanel.cancel = function() optionsCancel(); end
 InterfaceOptions_AddCategory(rlOptionsPanel)
 
 -- Title --
@@ -322,26 +320,6 @@ function RefreshRandomToyPool()
 end
 
 --------------------------------------------------------------------
--- Set random Lure/Bobber Toy 
---------------------------------------------------------------------
-function setRandom()
-	if not InCombatLockdown() and #rlList > 0 then
-		local rnd = math.random(1,count)
-		local item = Item:CreateFromItemID(rlList[rnd])
-		item:ContinueOnItemLoad(function()
-			local name = item:GetItemName()
-			local icon = item:GetItemIcon()
-			rlBtn:SetAttribute("toy",name)
-			updateMacro(name,icon)
-		end)
-	elseif #rlList == 0 then
-		-- Go home and /cry 
-		updateMacro("Hearthstone","134414")
-	end
-end
-
-
---------------------------------------------------------------------
 -- Set random Lure/Bobber Toy without from a diminishing pool 
 --------------------------------------------------------------------
 function SelectRandomLureToy()
@@ -356,7 +334,7 @@ function SelectRandomLureToy()
 	-- Still no entries?
 	if #rlList == 0 then
 		-- Go home and /cry 
-		updateMacro("Hearthstone","134414")
+		UpdateLureMacro("Hearthstone","134414")
 		return
 	end
 
@@ -370,7 +348,7 @@ function SelectRandomLureToy()
 		local icon = item:GetItemIcon()
 		-- Update button and macro 
 		rlBtn:SetAttribute("toy",name)
-		updateMacro(name,icon)
+		UpdateLureMacro(name,icon)
 
 		-- Once the toy item data is loaded, remove the toy id from the ppol
 		table.remove(rlList, rnd)
@@ -413,7 +391,7 @@ end
 --------------------------------------------------------------------
 -- Update/Create the global macro
 --------------------------------------------------------------------
-function updateMacro(name,icon)
+function UpdateLureMacro(name,icon)
 	if not InCombatLockdown() then
 		local macroIndex = GetMacroIndexByName(MacroName)
 		if macroIndex > 0 then
