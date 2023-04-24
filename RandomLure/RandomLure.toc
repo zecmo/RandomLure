@@ -1,0 +1,11 @@
+## Interface: 100007
+## Title: Random Lure
+## Author: cloned from Jamien, modified by zecmo
+## Version: 1.0.0
+## Notes: Uses a random fishing lure (bobber) toy
+## SavedVariables: rlOptions, rlOverrideChk
+
+## X-Localizations: enUS, enGB
+## X-CompatibleLocales: enUS, enGB
+
+RandomLure.lua
