@@ -1,7 +1,7 @@
 ## Interface: 100007
 ## Title: Random Lure
 ## Author: cloned from JamienAU's RandomHearthstone, modified by zecmo
-## Version: 1.0.0
+## Version: 1.0.1
 ## Notes: Uses a random fishing lure (bobber) toy
 ## SavedVariables: rlOptions
 
