@@ -6,8 +6,8 @@ local addon = ...
 --   One of the reasons I went with Random Lure over Random Bobble is bc the whole word fits on the actionbar.
 --------------------------------------------------------------------
 
-local MacroName = "Lure" 
-local debug = false
+local RLMacroName = "Lure" 
+local rlDebug = false
 
 --------------------------------------------------------------------
 -- Bobber Toys List
@@ -46,7 +46,7 @@ rlLureToySpellIds[147312] = 000000 -- "Demon Noggin"
 rlLureToySpellIds[147308] = 000000 -- "Enchanted Bobber"
 rlLureToySpellIds[147309] = 000000 -- "Face of the Forest"
 rlLureToySpellIds[147310] = 000000 -- "Floating Totem"
-rlLureToySpellIds[142532] = 000000 -- "Murlock Head"
+rlLureToySpellIds[142532] = 231349 -- "Murlock Head"
 rlLureToySpellIds[147311] = 000000 -- "Replica Gondola"
 rlLureToySpellIds[142531] = 231341 -- "Squeaky Duck"
 rlLureToySpellIds[142530] = 231338 -- "Tugboat"
@@ -218,10 +218,10 @@ end)
 --------------------------------------------------------------------
 -- Assigned methods to the UI Panel's Confirm/Okay & Cancel [which Option UI updates where all changes are live with confirm, I'm not sure if the Cancel ever gets called. Perhaps in other use cases.
 --------------------------------------------------------------------
-rlOptionsPanel.okay = function() optionsOkay(); end
-rlOptionsPanel.cancel = function() optionsCancel(); end
+rlOptionsPanel.okay = function() RLOptionsOkay(); end
+rlOptionsPanel.cancel = function() RLOptionsCancel(); end
 
-function optionsOkay()
+function RLOptionsOkay()
 	for i = 1, #rlOptions do
 		for _,v in pairs(rlOptions) do
 			if rlCheckButtons[i].ID == v[1] then
@@ -234,7 +234,7 @@ function optionsOkay()
 	SelectRandomLureToy()
 end
 
-function optionsCancel()
+function RLOptionsCancel()
 	for i,v in pairs(rlOptions) do
 		for l = 1, #rlOptions do
 			if rlCheckButtons[l].ID == v[1] and v[2] == true then
@@ -275,7 +275,7 @@ rlBtn:SetScript("OnEvent", function(self,event, arg1, arg2, arg3)
 
 		if event == "UNIT_SPELLCAST_FAILED" and arg1 == "player" then
 			if IsLureToySpellId(arg3) then
-				 WaitThenSetRandom()
+				 WaitThenSetRandomLure()
 			end
 		end
 	end
@@ -286,7 +286,7 @@ end)
 --   However handling the msg too quickly, caused the character to /say part of the macro.
 --    Adding a little wait seemed to fix the problem and it's a more consistent UX.
 --------------------------------------------------------------------
-function WaitThenSetRandom()
+function WaitThenSetRandomLure()
 	local timeOut = 1
 	C_Timer.After(timeOut, function()
 		local ticker
@@ -323,7 +323,7 @@ end
 -- Set random Lure/Bobber Toy without from a diminishing pool 
 --------------------------------------------------------------------
 function SelectRandomLureToy()
-	if debug then
+	if rlDebug then
 		print("== remainingInPool_OnEnter: " .. #rlList) end
 
 	-- Make sure the poolList is not empty 
@@ -353,7 +353,7 @@ function SelectRandomLureToy()
 		-- Once the toy item data is loaded, remove the toy id from the ppol
 		table.remove(rlList, rnd)
 	
-		if debug then
+		if rlDebug then
 			print("=== Selected: " .. name) end
 
 	end)
@@ -364,11 +364,11 @@ end
 -- Gets random index without allowing the same lure toy twice
 --   which can happen on pool refresh
 --------------------------------------------------------------------
-local prevItemId = -1
+local prevLureItemId = -1
 function GetRandomIndex(size)
 	if size > 1 then
 		local rando = math.random(1,size)
-		if rlList[rando] == prevItemId then
+		if rlList[rando] == prevLureItemId then
 			if rando == 1 then
 				rando = size
 			else
@@ -376,12 +376,12 @@ function GetRandomIndex(size)
 			end
 		end
 
-		prevItemId = rlList[rando]
+		prevLureItemId = rlList[rando]
 		return rando
 	end
 
 	if size == 1 then
-		prevItemId = rlList[1]
+		prevLureItemId = rlList[1]
 		return 1
 	end
 
@@ -393,11 +393,11 @@ end
 --------------------------------------------------------------------
 function UpdateLureMacro(name,icon)
 	if not InCombatLockdown() then
-		local macroIndex = GetMacroIndexByName(MacroName)
+		local macroIndex = GetMacroIndexByName(RLMacroName)
 		if macroIndex > 0 then
-			EditMacro(macroIndex, MacroName, icon, "#showtooltip " .. name .. src)
+			EditMacro(macroIndex, RLMacroName, icon, "#showtooltip " .. name .. src)
 		else
-			CreateMacro(MacroName, icon, "#showtooltip " .. name .. src, nil)
+			CreateMacro(RLMacroName, icon, "#showtooltip " .. name .. src, nil)
 		end
 	end
 end
