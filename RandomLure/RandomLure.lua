@@ -8,6 +8,7 @@ local addon = ...
 
 local RLMacroName = "Lure" 
 local rlDebug = false
+local unusableLureTextColor = "|cffFF0000"
 
 --------------------------------------------------------------------
 -- Bobber Toys List
@@ -28,7 +29,9 @@ local rlToys = {
 	{147311, "Replica Gondola"},
 	{142531, "Squeaky Duck"},
 	{142530, "Tugboat"},
-	{143662, "Wooden Pepe"},	
+	{143662, "Wooden Pepe"},
+--- One Shadowlands lure --
+	{180993, "Bat Visage Bobber"},
 	}
 
 --------------------------------------------------------------------
@@ -40,17 +43,18 @@ local rlLureToySpellIds = {} --All the toys
 -- rlLureToySpellIds[toyId] = spellId -- Human readable name comment -- 
 rlLureToySpellIds[202207] = 397827 -- "Reuseable Oversized Bobber"
 rlLureToySpellIds[142528] = 231291 -- "Can of Worms"
-rlLureToySpellIds[147307] = 000000 -- "Carved Wooden Helm"
+rlLureToySpellIds[147307] = 240803 -- "Carved Wooden Helm"
 rlLureToySpellIds[142529] = 231319 -- "Cat Head"
-rlLureToySpellIds[147312] = 000000 -- "Demon Noggin"
-rlLureToySpellIds[147308] = 000000 -- "Enchanted Bobber"
-rlLureToySpellIds[147309] = 000000 -- "Face of the Forest"
-rlLureToySpellIds[147310] = 000000 -- "Floating Totem"
+rlLureToySpellIds[147312] = 240801 -- "Demon Noggin"
+rlLureToySpellIds[147308] = 240800 -- "Enchanted Bobber"
+rlLureToySpellIds[147309] = 240806 -- "Face of the Forest"
+rlLureToySpellIds[147310] = 240802 -- "Floating Totem"
 rlLureToySpellIds[142532] = 231349 -- "Murlock Head"
-rlLureToySpellIds[147311] = 000000 -- "Replica Gondola"
+rlLureToySpellIds[147311] = 240804 -- "Replica Gondola"
 rlLureToySpellIds[142531] = 231341 -- "Squeaky Duck"
 rlLureToySpellIds[142530] = 231338 -- "Tugboat"
 rlLureToySpellIds[143662] = 232613 -- "Wooden Pepe"
+rlLureToySpellIds[180993] = 335484 -- "Bat Visage Bobber"
 
 --------------------------------------------------------------------
 -- Used to check incoming spellIds, what is a Lure toy?
@@ -101,7 +105,7 @@ rlDesc:SetWidth(SettingsPanel.Container:GetWidth()-35)
 rlDesc:SetHeight(1)
 rlDesc.text = rlDesc:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rlDesc.text:SetPoint("TOPLEFT", rlDesc, 0, 0)
-rlDesc.text:SetText("Add or remove lure toys from rotation")
+rlDesc.text:SetText("Add/remove lure toys from rotation [red text => toy is not known]")
 rlDesc.text:SetFont("Fonts\\FRIZQT__.TTF", 14)
 
 -- Scroll Frame
@@ -316,6 +320,28 @@ function RefreshRandomToyPool()
 		src = "\n/cry"
 	else 
 		src = "\n/click rlButton 1\n/click rlButton LeftButton 1" 
+	end
+
+	ColorizeLureToysText()
+end
+
+--------------------------------------------------------------------
+-- White text for known/usable, Red text for unknown toys
+--------------------------------------------------------------------
+function ColorizeLureToysText()
+	-- Check for usable/acquired toys then colorize and [debug] print out all available bobber toys --		
+	for k in pairs(rlToys) do
+		if PlayerHasToy(rlToys[k][1]) then
+			if rlDebug then
+				print("=== " .. rlToys[k][2] .. " : Usable!") end
+				-- Default white --
+				rlCheckButtons[k].Text:SetText("  " .. rlToys[k][2])
+		else
+			if rlDebug then
+				print("=== " .. rlToys[k][2] .. " : NOT Usable!!") end
+				-- Unknowns red --
+				rlCheckButtons[k].Text:SetText("  " .. unusableLureTextColor .. rlToys[k][2])
+		end
 	end
 end
 
