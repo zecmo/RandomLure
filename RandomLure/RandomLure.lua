@@ -72,14 +72,17 @@ function IsLureToySpellId(spellId)
 	return false
 end
 
-
 --------------------------------------------------------------------
 -- UI in Options panel
 --------------------------------------------------------------------
 
 local rlOptionsPanel = CreateFrame("Frame")
 rlOptionsPanel.name = "Random Lure [/rl or /lure]"
-InterfaceOptions_AddCategory(rlOptionsPanel)
+rlOptionsPanel.OnCommit = function() RLOptionsOkay(); end
+rlOptionsPanel.OnDefault = function() end
+rlOptionsPanel.OnRefresh = function() end
+local rlureCategory = Settings.RegisterCanvasLayoutCategory(rlOptionsPanel, "Random Lure [/rl or /lure]")
+Settings.RegisterAddOnCategory(rlureCategory)
 
 -- Title --
 local rlTitle = CreateFrame("Frame",nil, rlOptionsPanel)
@@ -222,8 +225,6 @@ end)
 --------------------------------------------------------------------
 -- Assigned methods to the UI Panel's Confirm/Okay & Cancel [which Option UI updates where all changes are live with confirm, I'm not sure if the Cancel ever gets called. Perhaps in other use cases.
 --------------------------------------------------------------------
-rlOptionsPanel.okay = function() RLOptionsOkay(); end
-rlOptionsPanel.cancel = function() RLOptionsCancel(); end
 
 function RLOptionsOkay()
 	for i = 1, #rlOptions do
@@ -236,16 +237,6 @@ function RLOptionsOkay()
 
 	RefreshRandomToyPool()
 	SelectRandomLureToy()
-end
-
-function RLOptionsCancel()
-	for i,v in pairs(rlOptions) do
-		for l = 1, #rlOptions do
-			if rlCheckButtons[l].ID == v[1] and v[2] == true then
-				rlCheckButtons[l]:SetChecked(true)
-			end
-		end
-	end
 end
 
 --------------------------------------------------------------------
@@ -433,12 +424,10 @@ end
 --------------------------------------------------------------------
 SLASH_RandomLure1 = "/rl"
 function SlashCmdList.RandomLure(msg, editbox)
-InterfaceOptionsFrame_OpenToCategory(rlOptionsPanel)
-InterfaceOptionsFrame_OpenToCategory(rlOptionsPanel)
+	Settings.OpenToCategory(rlureCategory:GetID())
 end
 
 SLASH_RandomLure2 = "/lure"
 function SlashCmdList.RandomLure(msg, editbox)
-InterfaceOptionsFrame_OpenToCategory(rlOptionsPanel)
-InterfaceOptionsFrame_OpenToCategory(rlOptionsPanel)
+	Settings.OpenToCategory(rlureCategory:GetID())
 end
