@@ -32,6 +32,10 @@ local rlToys = {
 	{143662, "Wooden Pepe"},
 --- One Shadowlands lure --
 	{180993, "Bat Visage Bobber"},
+--- Three WarWithin/Undermine lures --
+	{237346, "Artisan Beverage Goblet"},
+	{237345, "Limited Edition Rocket"},
+	{237347, "Organically-Sourced Wellington"},
 	}
 
 --------------------------------------------------------------------
@@ -55,6 +59,9 @@ rlLureToySpellIds[142531] = 231341 -- "Squeaky Duck"
 rlLureToySpellIds[142530] = 231338 -- "Tugboat"
 rlLureToySpellIds[143662] = 232613 -- "Wooden Pepe"
 rlLureToySpellIds[180993] = 335484 -- "Bat Visage Bobber"
+rlLureToySpellIds[237346] = 1222884 -- "Artisan Beverage Goblet"
+rlLureToySpellIds[237345] = 1222880 -- "Limited Edition Rocket"
+rlLureToySpellIds[237347] = 1222888 -- "Organically-Sourced Wellington"
 
 --------------------------------------------------------------------
 -- Used to check incoming spellIds, what is a Lure toy?
