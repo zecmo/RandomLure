@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 120007
 ## Title: Random Lure
 ## IconTexture: Interface/Addons/RandomLure/art/RandomLure_small_icon
 ## Author: zecmo
