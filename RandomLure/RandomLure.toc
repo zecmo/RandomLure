@@ -2,7 +2,7 @@
 ## Title: Random Lure
 ## IconTexture: Interface/Addons/RandomLure/art/RandomLure_small_icon
 ## Author: zecmo
-## Version: 1.2
+## Version: 1.2.1
 ## Notes: Uses a random fishing lure (bobber) toy via an automatically created macro.
 ## Notes: |cff58C6FAUses a random fishing lure (bobber) toy via an automatically created macro.|r|n|cffbbbbbbBy zecmo|r|n|n|cffFFC700Slash command: /lure, /rl|r
 ## Category: Professions
